@@ -34,7 +34,7 @@ module.exports = {
       },
     });
 
-    db.define("Rating", {
+    const Rating = db.define("Rating", {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -42,6 +42,14 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      movieId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: Movie,
+          key: "id",
+        },
         allowNull: false,
       },
       rating: {
@@ -62,7 +70,7 @@ module.exports = {
       movieId: {
         type: Sequelize.INTEGER,
         references: {
-          model: "Movie",
+          model: Movie,
           key: "id",
         },
       },
@@ -79,21 +87,43 @@ module.exports = {
     await db.sync();
 
     // Insertar mock data si no hay películas
+    // Vía ChatGPT
     const count = await Movie.count();
     if (count === 0) {
       await Movie.bulkCreate([
-        { title: "Inception", genre: "Sci-Fi", duration: 148, rating: 8.8 },
-        { title: "The Dark Knight", genre: "Action", duration: 152, rating: 9.0 },
-        { title: "Forrest Gump", genre: "Drama", duration: 142, rating: 8.8 },
-        { title: "Titanic", genre: "Romance", duration: 195, rating: 7.8 },
-        { title: "Interstellar", genre: "Sci-Fi", duration: 169, rating: 8.6 },
-        { title: "The Matrix", genre: "Sci-Fi", duration: 136, rating: 8.7 },
-        { title: "Gladiator", genre: "Action", duration: 155, rating: 8.5 },
-        { title: "The Godfather", genre: "Crime", duration: 175, rating: 9.2 },
-        { title: "The Shawshank Redemption", genre: "Drama", duration: 142, rating: 9.3 },
-        { title: "Pulp Fiction", genre: "Crime", duration: 154, rating: 8.9 },
+        { title: "Inception", genre: "Sci-Fi", duration: 148, rating: 4.8 },
+        { title: "The Dark Knight", genre: "Action", duration: 152, rating: 5.0 },
+        { title: "Forrest Gump", genre: "Drama", duration: 142, rating: 4.8 },
+        { title: "Titanic", genre: "Romance", duration: 195, rating: 3.8 },
+        { title: "Interstellar", genre: "Sci-Fi", duration: 169, rating: 4.6 },
+        { title: "The Matrix", genre: "Sci-Fi", duration: 136, rating: 4.7 },
+        { title: "Gladiator", genre: "Action", duration: 155, rating: 4.5 },
+        { title: "The Godfather", genre: "Crime", duration: 175, rating: 5.0 },
+        { title: "The Shawshank Redemption", genre: "Drama", duration: 142, rating: 5.0 },
+        { title: "Pulp Fiction", genre: "Crime", duration: 154, rating: 4.9 },
       ]);
       console.log("Mock data insertado en la base de datos.");
+
+      const movies = await Movie.findAll();
+      // remove the first movie from the list
+      const ratings = [];
+      for (const movie of movies) {
+        if(movie.id === 1) {
+          // dejo libre el id=1 para probar los createMovieRating
+          continue
+        }
+        const numRatings = Math.floor(Math.random() * 3) + 1;
+        for (let i = 0; i < numRatings; i++) {
+          ratings.push({
+            userId: Math.floor(Math.random() * 10) + 1,
+            movieId: movie.id,
+            rating: (Math.random() * 5).toFixed(1),
+            comment: "Comentario de ejemplo",
+          });
+        }
+      }
+      await Rating.bulkCreate(ratings);
+      console.log("Ratings mock data insertado en la base de datos.");
     } else {
       console.log("Los datos ya existen, no se insertaron nuevamente.");
     }

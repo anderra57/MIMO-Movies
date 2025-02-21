@@ -6,6 +6,9 @@ const MovieModel = {
     },
     findAllMovies() {
         return this.model.findAll();
+    },
+    findMovieByMovieId(movieId) {
+        return this.model.findByPk(movieId);
     }
 };
 
