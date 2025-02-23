@@ -1,40 +1,29 @@
 const express = require("express");
+const { watchlistController } = require("../controllers/watchlist");
+const { watchlistSchema } = require("../schemas/watchlist");
+const { validatePayload } = require("../middlewares/validatePayload");
 const router = express.Router();
 
 // GET /watchlist/:userId
 // summary: Obtiene el watchlist de un usuario
 router.get(
     "/:userId",
-    (req, res) => {
-      const { userId } = req.params;
-      res.json({
-        message: `GET /watchlist/${userId}`,
-      });
-    }
+    watchlistController.getUserWatchlist,
 );
 
 // POST /watchlist/:userId/items
 // summary: Añadir una película al watchlist de un usuario
 router.post(
     "/:userId/items",
-    (req, res) => {
-      const { userId } = req.params;
-      res.status(201).json({
-        message: `POST /watchlist/${userId}/items`,
-      });
-    }
+    validatePayload(watchlistSchema.WatchlistItemInput),
+    watchlistController.addToWatchlist,
 );
 
 // DELETE /watchlist/:userId/items/:itemId
 // summary: Elimina una película del watchlist de un usuario
 router.delete(
     "/:userId/items/:itemId",
-    (req, res) => {
-      const { userId, itemId } = req.params;
-      res.status(204).json({
-        message: `DELETE /watchlist/${userId}/items/${itemId}`,
-      });
-    }
+    watchlistController.removeFromWatchlist,
 );
 
 module.exports = {
