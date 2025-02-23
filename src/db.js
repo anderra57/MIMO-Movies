@@ -66,7 +66,12 @@ module.exports = {
       },
     });
 
-    db.define("Watchlist", {
+    const WatchlistItem = db.define("Watchlist", {
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
       movieId: {
         type: Sequelize.INTEGER,
         references: {
@@ -82,6 +87,36 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },
+    });
+
+
+    // Definir asociaciones
+    Movie.hasMany(Rating, { foreignKey: "movieId" });
+    Rating.belongsTo(Movie, { foreignKey: "movieId" });
+
+    Movie.hasMany(WatchlistItem, { foreignKey: "movieId" });
+    WatchlistItem.belongsTo(Movie, { foreignKey: "movieId" });
+
+
+    // Hook para establecer el campo watched
+    WatchlistItem.addHook('beforeCreate', async (watchlist, options) => {
+      const rating = await Rating.findOne({
+        where: {
+          movieId: watchlist.movieId,
+          userId: watchlist.userId,
+        },
+      });
+      watchlist.watched = !!rating;
+    });
+
+    WatchlistItem.addHook('beforeUpdate', async (watchlist, options) => {
+      const rating = await Rating.findOne({
+        where: {
+          movieId: watchlist.movieId,
+          userId: watchlist.userId,
+        },
+      });
+      watchlist.watched = !!rating;
     });
 
     await db.sync();
@@ -105,8 +140,8 @@ module.exports = {
       console.log("Mock data insertado en la base de datos.");
 
       const movies = await Movie.findAll();
-      // remove the first movie from the list
       const ratings = [];
+      const watchlists = [];
       for (const movie of movies) {
         if(movie.id === 1) {
           // dejo libre el id=1 para probar los createMovieRating
@@ -123,7 +158,22 @@ module.exports = {
         }
       }
       await Rating.bulkCreate(ratings);
-      console.log("Ratings mock data insertado en la base de datos.");
+
+      // Añadir películas al watchlist de los usuarios 1-10 solo si watched está activado
+      for (const movie of movies) {
+        for (let userId = 1; userId <= 10; userId++) {
+          const rating = ratings.find(r => r.movieId === movie.id && r.userId === userId);
+          if (rating) { // Solo añadir si hay un rating, es decir, si watched está activado
+            watchlists.push({
+              userId,
+              movieId: movie.id,
+              watched: true, // watched está activado
+            });
+          }
+        }
+      }
+      await WatchlistItem.bulkCreate(watchlists);
+      console.log("Ratings y Watchlist mock data insertado en la base de datos.");
     } else {
       console.log("Los datos ya existen, no se insertaron nuevamente.");
     }
