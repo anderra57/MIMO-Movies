@@ -1,4 +1,5 @@
 const { Sequelize } = require("sequelize");
+const { generateHashedPassword } = require("./auth");
 
 const db = new Sequelize({
   dialect: "sqlite",
@@ -89,6 +90,23 @@ module.exports = {
       },
     });
 
+    const User = db.define("User", {
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      username: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      password: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+    });
+
 
     // Definir asociaciones
     Movie.hasMany(Rating, { foreignKey: "movieId" });
@@ -96,6 +114,12 @@ module.exports = {
 
     Movie.hasMany(WatchlistItem, { foreignKey: "movieId" });
     WatchlistItem.belongsTo(Movie, { foreignKey: "movieId" });
+
+    User.hasMany(Rating, { foreignKey: "userId" });
+    Rating.belongsTo(User, { foreignKey: "userId" });
+
+    User.hasMany(WatchlistItem, { foreignKey: "userId" });
+    WatchlistItem.belongsTo(User, { foreignKey: "userId" });
 
 
     // Hook para establecer el campo watched
@@ -138,6 +162,18 @@ module.exports = {
         { title: "Pulp Fiction", genre: "Crime", duration: 154, rating: 4.9 },
       ]);
       console.log("Mock data insertado en la base de datos.");
+
+      const users = [];
+      const password = await generateHashedPassword("12345678");
+      for (let i = 1; i <= 10; i++) {
+        users.push({
+          id: i,
+          username: `user${i}`,
+          password
+        });
+        console.log(`Usuario insertado: username: user${i}, password: ${password}`);
+      }
+      await User.bulkCreate(users);
 
       const movies = await Movie.findAll();
       const ratings = [];

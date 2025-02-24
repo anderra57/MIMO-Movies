@@ -2,7 +2,13 @@ const express = require("express");
 const { ratingSchema } = require("../schemas/rating");
 const { ratingsController } = require("../controllers/ratings");
 const { validatePayload } = require("../middlewares/validatePayload");
+const { verifyToken } = require("../middlewares/verifyToken");
+
 const router = express.Router();
+
+// verifyToken: Middleware para verificar el token de autenticación
+// NO se usa en todos los métodos de este router
+// Por lo tanto, se define en cada método que lo requiera
 
 // GET /movies/:movieId/ratings
 // summary: Obtiene las valoraciones de una película
@@ -15,6 +21,7 @@ router.get(
 // summary: Crea una valoración para una película
 router.post(
     "/",
+    verifyToken,
     validatePayload(ratingSchema.createMovieRating),
     ratingsController.createMovieRating
 );
@@ -30,6 +37,7 @@ router.get(
 // summary: Modifica una valoración de una película
 router.patch(
     "/:ratingId",
+    verifyToken,
     validatePayload(ratingSchema.createMovieRating),
     ratingsController.updateMovieRating
 );
@@ -38,6 +46,7 @@ router.patch(
 // summary: Elimina una valoración de una película
 router.delete(
     "/:ratingId",
+    verifyToken,
     ratingsController.deleteMovieRating
 );
 

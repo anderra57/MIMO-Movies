@@ -2,7 +2,12 @@ const express = require("express");
 const { watchlistController } = require("../controllers/watchlist");
 const { watchlistSchema } = require("../schemas/watchlist");
 const { validatePayload } = require("../middlewares/validatePayload");
+const { verifyToken } = require("../middlewares/verifyToken");
 const router = express.Router();
+
+// Middleware para verificar el token de autenticación
+// Se usa en todos los métodos de este router
+router.use(verifyToken)
 
 // GET /watchlist/:userId
 // summary: Obtiene el watchlist de un usuario
