@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { config } = require("./config");
+const { config } = require("./config/config");
 
 module.exports = {
   decodeAccessToken: (accessToken) => {

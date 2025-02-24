@@ -1,5 +1,5 @@
 const { Sequelize } = require("sequelize");
-const { generateHashedPassword } = require("./auth");
+const { generateHashedPassword } = require("../auth");
 
 const db = new Sequelize({
   dialect: "sqlite",
@@ -107,7 +107,6 @@ module.exports = {
       },
     });
 
-
     // Definir asociaciones
     Movie.hasMany(Rating, { foreignKey: "movieId" });
     Rating.belongsTo(Movie, { foreignKey: "movieId" });
@@ -120,7 +119,6 @@ module.exports = {
 
     User.hasMany(WatchlistItem, { foreignKey: "userId" });
     WatchlistItem.belongsTo(User, { foreignKey: "userId" });
-
 
     // Hook para establecer el campo watched
     WatchlistItem.addHook('beforeCreate', async (watchlist, options) => {
@@ -144,9 +142,40 @@ module.exports = {
     });
 
     await db.sync();
+  },
 
-    // Insertar mock data si no hay películas
-    // Vía ChatGPT
+  async seedDatabase() {
+    const Movie = db.models.Movie;
+    const User = db.models.User;
+    const Rating = db.models.Rating;
+    const WatchlistItem = db.models.Watchlist;
+
+    await Movie.create({
+      title: "Test Movie",
+      genre: "Test Genre",
+      duration: 120,
+      rating: 4.5,
+    });
+
+    await User.create({
+      username: "user1",
+      password: await generateHashedPassword("12345678"),
+    });
+    
+    await Rating.create({
+      userId: 1,
+      movieId: 1,
+      rating: 4.5,
+      comment: "Test comment",
+    });
+  },
+
+  async seedDatabaseBulk() {
+    const Movie = db.models.Movie;
+    const User = db.models.User;
+    const Rating = db.models.Rating;
+    const WatchlistItem = db.models.Watchlist;
+
     const count = await Movie.count();
     if (count === 0) {
       await Movie.bulkCreate([
