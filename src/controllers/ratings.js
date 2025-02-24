@@ -52,8 +52,7 @@ const ratingsController = {
                 return;
             }
 
-            // todo userId debe ser el id del usuario autenticado
-            const userId = 99;
+            const userId = req.userId;
 
             const rating = await RatingModel.createRating({
                 rating: data?.rating,
@@ -63,8 +62,8 @@ const ratingsController = {
             });
 
             res.status(201).json(rating);
-        } catch {
-            res.status(500).json({ error: "Error interno del servidor" });
+        } catch (e) {
+            res.status(500).json({ error: "Error interno del servidor: " + e });
         }
     },
     async getMovieRating(req, res) {
