@@ -44,16 +44,13 @@ const ratingsController = {
                 res.status(400).json({ error: "Invalid movie id" });
                 return;
             }
-            console.log('movieId is correct');
             
-
             // Comprobar que la película cuyo id es movieId existe
             const movie = await MovieModel.findMovieByMovieId(movieId);
             if (!movie) {
                 res.status(404).json({ error: "Movie not found" });
                 return;
             }
-            console.log('movie found');
 
             // todo userId debe ser el id del usuario autenticado
             const userId = 99;
@@ -64,8 +61,6 @@ const ratingsController = {
                 userId,
                 movieId,
             });
-            console.log('rating created')
-            console.log(rating);
 
             res.status(201).json(rating);
         } catch {
