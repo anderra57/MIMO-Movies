@@ -1,5 +1,5 @@
 const { UserModel } = require("../models/user");
-const { generateAccessToken, compareHashedPassword } = require("../auth");
+const { generateAccessToken, compareHashedPassword } = require("../utils/auth");
 
 const sessionsController = {
   async login(req, res) {

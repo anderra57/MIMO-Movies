@@ -1,5 +1,5 @@
 const { Sequelize } = require("sequelize");
-const { generateHashedPassword } = require("../auth");
+const { generateHashedPassword } = require("../utils/auth");
 
 const db = new Sequelize({
   dialect: "sqlite",

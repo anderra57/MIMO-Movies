@@ -1,4 +1,4 @@
-const { decodeAccessToken } = require("../auth");
+const { decodeAccessToken } = require("../utils/auth");
 
 module.exports = {
   verifyToken: (req, res, next) => {
