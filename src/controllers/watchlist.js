@@ -4,9 +4,8 @@ const { MovieModel } = require('../models/movie');
 const watchlistController = {
     async getUserWatchlist(req, res) {
         try {
-            const movieId = parseInt(req.movieId);
             const { params } = req;
-            const userId = parseInt(params?.userId);
+            const userId = Number(params?.userId);
 
             const watchlist = await WatchlistModel.findWatchlistByQueryJoin({ userId });
             
@@ -25,9 +24,9 @@ const watchlistController = {
     async addToWatchlist(req, res) {
         try {
             const { params } = req;
-            const userId = parseInt(params?.userId);
+            const userId = Number(params?.userId);
             const data = req.body;
-            const movieId = parseInt(data?.movieId);
+            const movieId = Number(data?.movieId);
 
             // Comprobar que movieId es un número
             if (!movieId || isNaN(movieId)) {
@@ -63,7 +62,7 @@ const watchlistController = {
 
             res.status(201).json(watchlistItemCreate);
         } catch {
-            res.status(500).json({ error: "Error interno del servidorq" });
+            res.status(500).json({ error: "Error interno del servidor" });
         }
     },
     async removeFromWatchlist(req, res) {

@@ -4,7 +4,7 @@ const { MovieModel } = require('../models/movie');
 const ratingsController = {
     async getMovieRatings(req, res) {
         try{
-            const movieId = parseInt(req.movieId);
+            const movieId = Number(req.movieId);
 
             // Comprobar que movieId es un número
             if (!movieId || isNaN(movieId)) {
@@ -36,7 +36,7 @@ const ratingsController = {
     },
     async createMovieRating(req, res) {
         try {
-            const movieId = parseInt(req.movieId);
+            const movieId = Number(req.movieId);
             const data = req.body;
 
             // Comprobar que movieId es un número
@@ -68,9 +68,9 @@ const ratingsController = {
     },
     async getMovieRating(req, res) {
         try {
-            const movieId = parseInt(req.movieId);
+            const movieId = Number(req.movieId);
             const { params } = req;
-            const ratingId = parseInt(params?.ratingId);
+            const ratingId = Number(params?.ratingId);
 
             // Comprobar que movieId es un número
             if (!movieId || isNaN(movieId)) {
@@ -119,9 +119,9 @@ const ratingsController = {
     },
     async updateMovieRating(req, res) {
         try {
-            const movieId = parseInt(req.movieId);
+            const movieId = Number(req.movieId);
             const { params } = req;
-            const ratingId = parseInt(params?.ratingId);
+            const ratingId = Number(params?.ratingId);
             const data = req.body;
 
             // Comprobar que movieId es un número
@@ -174,9 +174,9 @@ const ratingsController = {
     },
     async deleteMovieRating(req, res) {
         try {
-            const movieId = parseInt(req.movieId);
+            const movieId = Number(req.movieId);
             const { params } = req;
-            const ratingId = parseInt(params?.ratingId);
+            const ratingId = Number(params?.ratingId);
 
             // Comprobar que movieId es un número
             if (!movieId || isNaN(movieId)) {

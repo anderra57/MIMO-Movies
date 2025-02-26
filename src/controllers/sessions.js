@@ -11,7 +11,7 @@ const sessionsController = {
 
     // Si el usuario no existe, devolvemos un error 401
     if (!user) {
-      res.status(401).json({ message: "Credenciales inválidas" });
+      res.status(401).json({ error: "Credenciales inválidas" });
       return;
     }
 
@@ -23,7 +23,7 @@ const sessionsController = {
 
     // Si no coincide, devolvemos un error 401
     if (!isPasswordValid) {
-      res.status(401).json({ message: "Credenciales inválidas" });
+      res.status(401).json({ error: "Credenciales inválidas" });
       return;
     }
 
