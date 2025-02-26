@@ -1,6 +1,6 @@
-const { app } = require("./src/app");
-const { config } = require("./src/config/config");
-const db = require("./src/config/db");
+const app = require("./app");
+const { config } = require("./config/config");
+const db = require("./config/db");
 
 async function start() {
   await db.initialize();
