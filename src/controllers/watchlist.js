@@ -28,22 +28,10 @@ const watchlistController = {
             const data = req.body;
             const movieId = Number(data?.movieId);
 
-            // Comprobar que movieId es un número
-            if (!movieId || isNaN(movieId)) {
-                res.status(400).json({ error: "Invalid movie id" });
-                return;
-            }
-
             // Comprobar que la película cuyo id es movieId existe
             const movie = await MovieModel.findMovieByMovieId(movieId);
             if (!movie) {
                 res.status(404).json({ error: "Película no encontrada" });
-                return;
-            }
-
-            // Comprobar que userId es un número
-            if (!userId || isNaN(userId)) {
-                res.status(400).json({ error: "Invalid user id" });
                 return;
             }
 
@@ -68,22 +56,9 @@ const watchlistController = {
     async removeFromWatchlist(req, res) {
         try {
             const { params } = req;
-            const userId = Number(params?.userId);
-            const itemId = Number(params?.itemId);          
+            const itemId = Number(params?.itemId);
 
-            // Comprobar que userId es un número
-            if (!userId || isNaN(userId)) {
-                res.status(400).json({ error: "Invalid user id" });
-                return;
-            }
-
-            // Comprobar que itemId es un número
-            if (!itemId || isNaN(itemId)) {
-                res.status(400).json({ error: "Invalid item id" });
-                return;
-            }
-
-            // Comprobar que el usuario userId tiene la película movieId en el watchlist
+            // Comprobar que el watchlistItem cuyo id es itemId existe
             const watchlistItem = await WatchlistModel.findWatchlistItemByQuery({ id: itemId });
             if (!watchlistItem) {
                 res.status(404).json({ error: "El item no existe" });

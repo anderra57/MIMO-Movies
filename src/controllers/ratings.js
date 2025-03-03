@@ -4,13 +4,8 @@ const { MovieModel } = require('../models/movie');
 const ratingsController = {
     async getMovieRatings(req, res) {
         try{
-            const movieId = Number(req.movieId);
-
-            // Comprobar que movieId es un número
-            if (!movieId || isNaN(movieId)) {
-                res.status(400).json({ error: "Invalid movie id" });
-                return;
-            }
+            const { params } = req;
+            const movieId = Number(params?.movieId);
 
             // Comprobar que la película cuyo id es movieId existe
             const movie = await MovieModel.findMovieByMovieId(movieId);
@@ -36,14 +31,9 @@ const ratingsController = {
     },
     async createMovieRating(req, res) {
         try {
-            const movieId = Number(req.movieId);
+            const { params } = req;
+            const movieId = Number(params?.movieId);
             const data = req.body;
-
-            // Comprobar que movieId es un número
-            if (!movieId || isNaN(movieId)) {
-                res.status(400).json({ error: "Invalid movie id" });
-                return;
-            }
             
             // Comprobar que la película cuyo id es movieId existe
             const movie = await MovieModel.findMovieByMovieId(movieId);
@@ -68,26 +58,14 @@ const ratingsController = {
     },
     async getMovieRating(req, res) {
         try {
-            const movieId = Number(req.movieId);
             const { params } = req;
+            const movieId = Number(params?.movieId);
             const ratingId = Number(params?.ratingId);
-
-            // Comprobar que movieId es un número
-            if (!movieId || isNaN(movieId)) {
-                res.status(400).json({ error: "Invalid movie id" });
-                return;
-            }
 
             // Comprobar que la película cuyo id es movieId existe
             const movie = await MovieModel.findMovieByMovieId(movieId);
             if (!movie) {
                 res.status(404).json({ error: "Movie not found" });
-                return;
-            }
-
-            // Comprobar que ratingId es un número
-            if (!ratingId || isNaN(ratingId)) {
-                res.status(400).json({ error: "Invalid rating id" });
                 return;
             }
 
@@ -119,27 +97,15 @@ const ratingsController = {
     },
     async updateMovieRating(req, res) {
         try {
-            const movieId = Number(req.movieId);
             const { params } = req;
+            const movieId = Number(params?.movieId);
             const ratingId = Number(params?.ratingId);
             const data = req.body;
-
-            // Comprobar que movieId es un número
-            if (!movieId || isNaN(movieId)) {
-                res.status(400).json({ error: "Invalid movie id" });
-                return;
-            }
 
             // Comprobar que la película cuyo id es movieId existe
             const movie = await MovieModel.findMovieByMovieId(movieId);
             if (!movie) {
                 res.status(404).json({ error: "Movie not found" });
-                return;
-            }
-
-            // Comprobar que ratingId es un número
-            if (!ratingId || isNaN(ratingId)) {
-                res.status(400).json({ error: "Invalid rating id" });
                 return;
             }
 
@@ -174,26 +140,14 @@ const ratingsController = {
     },
     async deleteMovieRating(req, res) {
         try {
-            const movieId = Number(req.movieId);
             const { params } = req;
+            const movieId = Number(params?.movieId);
             const ratingId = Number(params?.ratingId);
-
-            // Comprobar que movieId es un número
-            if (!movieId || isNaN(movieId)) {
-                res.status(400).json({ error: "Invalid movie id" });
-                return;
-            }
 
             // Comprobar que la película cuyo id es movieId existe
             const movie = await MovieModel.findMovieByMovieId(movieId);
             if (!movie) {
                 res.status(404).json({ error: "Movie not found" });
-                return;
-            }
-
-            // Comprobar que ratingId es un número
-            if (!ratingId || isNaN(ratingId)) {
-                res.status(400).json({ error: "Invalid rating id" });
                 return;
             }
 

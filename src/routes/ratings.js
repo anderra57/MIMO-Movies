@@ -3,6 +3,8 @@ const { ratingSchema } = require("../schemas/rating");
 const { ratingsController } = require("../controllers/ratings");
 const { validatePayload } = require("../middlewares/validatePayload");
 const { verifyToken } = require("../middlewares/verifyToken");
+const { paramsSchema } = require("../schemas/params");
+const { validateParams } = require("../middlewares/validateParams");
 
 const router = express.Router();
 
@@ -13,15 +15,17 @@ const router = express.Router();
 // GET /movies/:movieId/ratings
 // summary: Obtiene las valoraciones de una película
 router.get(
-    "/",
+    "/:movieId/ratings/",
+    validateParams(paramsSchema.movie),
     ratingsController.getMovieRatings,
 );
 
 // POST /movies/:movieId/ratings
 // summary: Crea una valoración para una película
 router.post(
-    "/",
+    "/:movieId/ratings/",
     verifyToken,
+    validateParams(paramsSchema.movie),
     validatePayload(ratingSchema.createMovieRating),
     ratingsController.createMovieRating
 );
@@ -29,15 +33,17 @@ router.post(
 // GET /movies/:movieId/ratings/:ratingId
 // summary: Obtiene una valoración específica de una película
 router.get(
-    "/:ratingId",
+    "/:movieId/ratings/:ratingId",
+    validateParams(paramsSchema.movieAndRating),
     ratingsController.getMovieRating,
 );
 
 // PATCH /movies/:movieId/ratings/:ratingId
 // summary: Modifica una valoración de una película
 router.patch(
-    "/:ratingId",
+    "/:movieId/ratings/:ratingId",
     verifyToken,
+    validateParams(paramsSchema.movieAndRating),
     validatePayload(ratingSchema.createMovieRating),
     ratingsController.updateMovieRating
 );
@@ -45,8 +51,9 @@ router.patch(
 // DELETE /movies/:movieId/ratings/:ratingId
 // summary: Elimina una valoración de una película
 router.delete(
-    "/:ratingId",
+    "/:movieId/ratings/:ratingId",
     verifyToken,
+    validateParams(paramsSchema.movieAndRating),
     ratingsController.deleteMovieRating
 );
 
