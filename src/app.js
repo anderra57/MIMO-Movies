@@ -16,6 +16,8 @@ app.use("/movies", ratingsRoutes);
 app.use("/movies", moviesRoutes);
 app.use("/watchlist", watchlistRoutes);
 app.use("/sessions", sessionRoutes);
+// Para el despliegue en AWS
+app.use("/health", (_, res) => res.status(200).send("OK"));
 app.use(notFoundHandler);
 
 module.exports = app;
