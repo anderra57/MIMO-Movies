@@ -2,8 +2,8 @@
 Description="MIMO Movies App"
 
 [Service]
-ExecStart=/usr/bin/docker run -p 80:3000 anderpri/mimo-movies:app-amd64
-ExecStop=/usr/bin/docker stop $(/usr/bin/docker ps -q --filter ancestor=anderpri/mimo-movies:app-amd64)
+ExecStart=/usr/bin/docker run -p 80:3000 -p 3306:3306 anderpri/mimo-movies:app-amd64-mysql
+ExecStop=/usr/bin/docker stop $(/usr/bin/docker ps -q --filter ancestor=anderpri/mimo-movies:app-amd64-mysql)
 Type=simple
 Restart=always
 

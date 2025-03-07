@@ -28,6 +28,20 @@ resource "aws_security_group" "instance" {
     protocol        = "tcp"
     security_groups = [aws_security_group.mimo-movies_alb.id]
   }
+
+  ingress {
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = [aws_security_group.mimo-movies_alb.id]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 resource "aws_launch_template" "mimo-movies" {
@@ -109,6 +123,13 @@ resource "aws_security_group" "mimo-movies_alb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -151,6 +172,6 @@ resource "aws_lb_listener_rule" "asg" {
 }
 
 output "mimo-movies_alb_dns_name" {
-  value       = aws_lb.mimo-movies_lb
+  value       = aws_lb.mimo-movies_lb.dns_name
   description = "Domain name of the MIMO Movies App ALB"
 }

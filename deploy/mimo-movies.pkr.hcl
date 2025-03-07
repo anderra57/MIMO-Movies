@@ -49,7 +49,7 @@ build {
       "sleep 30",
       "sudo apt-get update",
       "sudo apt install -y docker.io",
-      "sudo docker pull anderpri/mimo-movies:app-amd64",
+      "sudo docker pull anderpri/mimo-movies:app-amd64-mysql",
       "sudo cp /home/ubuntu/mimo-movies.service /etc/systemd/system",
       "sudo systemctl daemon-reload",
       "sudo systemctl enable mimo-movies.service"
