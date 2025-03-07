@@ -1,9 +1,17 @@
 const { Sequelize } = require("sequelize");
 const { generateHashedPassword } = require("../utils/auth");
 
-const db = new Sequelize({
+const db2 = new Sequelize({
   dialect: "sqlite",
   storage: ":memory:",
+});
+
+const db = new Sequelize({
+  dialect: "mysql",
+  host: process.env.MYSQL_HOST,
+  database: process.env.MYSQL_DATABASE,
+  username: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
 });
 
 const Movie = db.define("Movie", {
