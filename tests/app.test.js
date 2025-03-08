@@ -35,6 +35,89 @@ describe("App", () => {
 
             expect(Array.isArray(response.body)).toBeTruthy();
         });
+        it("should filter movies by exact title", async () => {
+            const response = await request(app)
+                .get("/movies?title=Rec")
+                .expect("Content-Type", /json/)
+                .expect(200);
+
+            expect(Array.isArray(response.body)).toBeTruthy();
+            expect(response.body.length).toBe(1);
+            expect(response.body[0].title).toBe("Rec");
+        });
+
+        it("should filter movies by title coincidence", async () => {
+            const response = await request(app)
+                .get("/movies?title=Re")
+                .expect("Content-Type", /json/)
+                .expect(200);
+
+            expect(Array.isArray(response.body)).toBeTruthy();
+            response.body.forEach(movie => {
+                expect(movie.title.toLowerCase()).toContain("re");
+            });
+        });
+
+        it("should filter movies by genre", async () => {
+            const response = await request(app)
+                .get("/movies?genre=Terror")
+                .expect("Content-Type", /json/)
+                .expect(200);
+
+            expect(Array.isArray(response.body)).toBeTruthy();    
+            expect(response.body.length).toBeGreaterThan(0);
+            response.body.forEach(movie => {
+                expect(movie.genre).toBe("Terror");
+            });
+        });
+
+        it("should filter movies by duration", async () => {
+            const response = await request(app)
+                .get("/movies?duration=78")
+                .expect("Content-Type", /json/)
+                .expect(200);
+
+            expect(Array.isArray(response.body)).toBeTruthy();    
+            expect(response.body[0].duration).toBe(78);
+        });
+
+        it("should filter movies by rating", async () => {
+            const response = await request(app)
+                .get("/movies?rating=4.9")
+                .expect("Content-Type", /json/)
+                .expect(200);
+
+            expect(Array.isArray(response.body)).toBeTruthy();    
+            expect(response.body.length).toBeGreaterThan(0);
+            response.body.forEach(movie => {
+                expect(movie.rating).toBe(4.9);
+            });
+        });
+
+        it("should filter movies by multiple criteria", async () => {
+            const response = await request(app)
+                .get("/movies?title=Rec&genre=Terror&duration=78&rating=4.5")
+                .expect("Content-Type", /json/)
+                .expect(200);
+
+            expect(Array.isArray(response.body)).toBeTruthy();    
+            const movie = response.body[0];
+            expect(movie.title).toBe("Rec");
+            expect(movie.genre).toBe("Terror");
+            expect(movie.duration).toBe(78);
+            expect(movie.rating).toBe(4.5);
+        });
+
+        it("should paginate movies", async () => {
+            const response = await request(app)
+                .get("/movies?page=2&limit=5")
+                .expect("Content-Type", /json/)
+                .expect(200);
+
+            expect(response.body.length).toBe(5);
+            const movieIds = response.body.map(movie => movie.id);
+            expect(movieIds).toEqual([6, 7, 8, 9, 10]);
+        });
     });
 
     // Rutas de valoraciones
@@ -310,3 +393,5 @@ describe("App", () => {
         });
     });
 });
+/*
+*/
