@@ -79,9 +79,9 @@ resource "aws_autoscaling_group" "mimo-movies_asg" {
   target_group_arns = [aws_lb_target_group.mimo-movies_tg.arn]
   health_check_type = "ELB"
 
-  min_size         = 1 # 2
-  desired_capacity = 1 # 3
-  max_size         = 1 # 6
+  min_size         = 2 # 2
+  desired_capacity = 3 # 3
+  max_size         = 6 # 6
 
   tag {
     key                 = "Name"
