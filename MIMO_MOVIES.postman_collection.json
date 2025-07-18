@@ -1,0 +1,403 @@
+{
+	"info": {
+		"_postman_id": "297873dd-d5fe-482d-bcf4-51e78e015330",
+		"name": "MIMO_MOVIES",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42126785"
+	},
+	"item": [
+		{
+			"name": "getMovies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}/movies",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"movies"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "Rec",
+							"disabled": true
+						},
+						{
+							"key": "genre",
+							"value": "Terror",
+							"disabled": true
+						},
+						{
+							"key": "duration",
+							"value": "78",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "5",
+							"disabled": true
+						},
+						{
+							"key": "rating",
+							"value": "4.8",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getMovieRatings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}/movies/:movieId/ratings",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"movies",
+						":movieId",
+						"ratings"
+					],
+					"variable": [
+						{
+							"key": "movieId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createMovieRating",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"rating\": 3.1,\n    \"comment\": \"test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/movies/:movieId/ratings",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"movies",
+						":movieId",
+						"ratings"
+					],
+					"variable": [
+						{
+							"key": "movieId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getMovieRating",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}/movies/:movieId/ratings/:ratingId",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"movies",
+						":movieId",
+						"ratings",
+						":ratingId"
+					],
+					"variable": [
+						{
+							"key": "movieId",
+							"value": "1"
+						},
+						{
+							"key": "ratingId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateMovieRating",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"rating\": 4,\n    \"comment\": \"test patched\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/movies/:movieId/ratings/:ratingId",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"movies",
+						":movieId",
+						"ratings",
+						":ratingId"
+					],
+					"variable": [
+						{
+							"key": "movieId",
+							"value": "1"
+						},
+						{
+							"key": "ratingId",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteMovieRating",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/movies/:movieId/ratings/:ratingId",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"movies",
+						":movieId",
+						"ratings",
+						":ratingId"
+					],
+					"variable": [
+						{
+							"key": "movieId",
+							"value": "1"
+						},
+						{
+							"key": "ratingId",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUserWatchlist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}/watchlist/:userId",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"watchlist",
+						":userId"
+					],
+					"variable": [
+						{
+							"key": "userId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addToWatchlist",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"movieId\": 1,\n    \"watched\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/watchlist/:userId/items",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"watchlist",
+						":userId",
+						"items"
+					],
+					"variable": [
+						{
+							"key": "userId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "removeFromWatchlist",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/watchlist/:userId/items/:itemId",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"watchlist",
+						":userId",
+						"items",
+						":itemId"
+					],
+					"variable": [
+						{
+							"key": "userId",
+							"value": "1"
+						},
+						{
+							"key": "itemId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"user1\",\n    \"password\": \"12345678\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/sessions",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"sessions"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{accessToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "localhost:3000",
+			"type": "default"
+		},
+		{
+			"key": "accessToken",
+			"value": "token",
+			"type": "string"
+		}
+	]
+}

@@ -8,10 +8,10 @@ const db = new Sequelize({
 
 const db2 = new Sequelize({
   dialect: "mysql",
-  host: process.env.MYSQL_HOST,
-  database: process.env.MYSQL_DATABASE,
-  username: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
+  host: process.env.MYSQL_HOST || "mimo-movies.c76gm8yu295x.eu-south-2.rds.amazonaws.com",
+  database: process.env.MYSQL_DATABASE || "mimomovies",
+  username: process.env.MYSQL_USER || "admin",
+  password: process.env.MYSQL_PASSWORD || "admin-mimo-movies",
 });
 
 const Movie = db.define("Movie", {
